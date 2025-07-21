@@ -76,7 +76,7 @@ const Dashboard = () => {
                         type="text"
                         name="company_website"
                         id="company_website"
-                        className="py-2 py-2 block w-full rounded-lg border-gray-300 bg-card"
+                        className="py-2 block w-full rounded-lg border-gray-300 bg-card"
                         placeholder="  search by coin"
                       />
                     </form>
