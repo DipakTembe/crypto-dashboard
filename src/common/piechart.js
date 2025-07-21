@@ -16,28 +16,28 @@ export default function PieChart() {
       data: {
         labels: ['Tether', 'Luna', 'Ethereum'],
         datasets: [{
-          data: [250, 375, 375], // Updated data values
+          data: [250, 375, 375],
           backgroundColor: ['rgb(54, 162, 235)', 'rgb(255, 99, 132)', 'rgb(0, 168, 107)'],
         }]
       },
       options: {
+        responsive: true,   // ✅ Make chart responsive
+        maintainAspectRatio: false,  // ✅ Allow height control
         plugins: {
           legend: {
             position: 'right',
             labels: {
-              usePointStyle: true, // Use point style for legend items
+              usePointStyle: true,
               pointStyleWidth: 12,
               boxHeight: 8
             }
           },
-          tooltips: {
+          tooltip: {
             callbacks: {
-              label: function(tooltipItem, data) {
-                let label = data.labels[tooltipItem.index] || '';
-                if (label) {
-                  label += ': $' + tooltipItem.value; // Append $ before the value
-                }
-                return label;
+              label: function (tooltipItem) {
+                const label = tooltipItem.label || '';
+                const value = tooltipItem.raw || '';
+                return `${label}: $${value}`;
               }
             }
           }
@@ -53,14 +53,15 @@ export default function PieChart() {
   }, []);
 
   return (
-    <div className="relative w-64 h-full mx-auto">
-      
-      <h2 className="font-bold absolute top-0 right-0 mr-4">
-        <span className="text-gray-300">Total value</span> $1000
-      </h2>
-      <h2 className="font-bold ">Portfolio</h2>
-      <canvas ref={chartRef} className="w-full h-full" aria-label="Portfolio Pie Chart" />
+    <div className="relative w-full h-72 sm:h-80 md:h-96 mx-auto">
+      <div className="absolute top-0 right-0 mr-4 text-right">
+        <h2 className="font-bold text-gray-300">Total value</h2>
+        <h2 className="font-bold">$1000</h2>
+      </div>
+      <h2 className="font-bold mb-2">Portfolio</h2>
+      <div className="w-full h-full">
+        <canvas ref={chartRef} className="w-full h-full" aria-label="Portfolio Pie Chart" />
+      </div>
     </div>
   );
-  
 }

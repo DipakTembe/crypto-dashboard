@@ -34,22 +34,20 @@ const CryptoChartDiv = () => {
   const apiChartData = useSelector((state) => state.marketChart.chartData);
   const chartCurrency = useSelector((state) => state.marketChart.chartCurrency);
 
-  // ✅ Fix: Added dispatch to dependency array
   useEffect(() => {
     dispatch(fetchMarketChartData(chartCurrency, 365));
   }, [dispatch, chartCurrency]);
 
-  // ✅ This effect remains the same
   useEffect(() => {
     if (apiChartData) {
-      console.log(apiChartData);
       setMarketData1(apiChartData.map((item) => item[1]));
       setMarketLabel(apiChartData.map((item, index) => index));
     }
   }, [apiChartData]);
 
   const options = {
-    maintainAspectRatio: false,
+    responsive: true,  // ✅ Responsive Chart.js option
+    maintainAspectRatio: false, // ✅ Allows dynamic height in container
     plugins: {
       legend: {
         align: 'end',
@@ -63,14 +61,10 @@ const CryptoChartDiv = () => {
     },
     scales: {
       x: {
-        grid: {
-          display: false,
-        },
+        grid: { display: false },
       },
       y: {
-        grid: {
-          display: true,
-        },
+        grid: { display: true },
         beginAtZero: true,
         ticks: {
           callback: function (value) {
@@ -81,10 +75,8 @@ const CryptoChartDiv = () => {
     },
   };
 
-  const labels = marketLabel;
-
   const data = {
-    labels,
+    labels: marketLabel,
     datasets: [
       {
         label: 'Bitcoin',
@@ -98,7 +90,7 @@ const CryptoChartDiv = () => {
   return (
     <>
       <TimeButtons />
-      <div className="sm:h-64">
+      <div className="w-full h-60 sm:h-80 md:h-96">
         <Line options={options} data={data} />
       </div>
     </>
